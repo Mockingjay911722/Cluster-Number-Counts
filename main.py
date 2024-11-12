@@ -71,6 +71,7 @@ def main ():
     Redshift_1d = 10 ** (np.linspace(np.log10(0.001), np.log10(2), nz))
     solid_angle = 4 * np.pi
     z_edges = 30
+    
     #We secondly calculate dn_dz
     # dn_dz = calculate_comoving_volume_element(Redshift_1d) * calculate_halo_mass_function(mass_values_1d, Redshift_1d) *calculate_selection_function(mass_values_1d, Redshift_1d) * solid_angle
     colv_z = calculate_comoving_volume_element(Redshift_1d)
@@ -79,6 +80,7 @@ def main ():
     dn_dz =  colv_z[None,:] * mass_fun * selc * solid_angle
     print('dn_dz.shape')
     print(dn_dz.shape)
+    
     #We thirdly calculate dn_dzm
     dn_dzm = integrate.trapz(dn_dz, mass_values_1d, axis=0)
     print('dn_dzm.shape')
@@ -87,16 +89,7 @@ def main ():
     print(dn_dzm.size)
     print('dn_dzm.ndim')
     print(dn_dzm.ndim)
-    # np.savetxt('dn_dzm', dn_dzm)
-    #
-    # a = open("dn_dzm", 'r')  # open file in read mode
-    #
-    # print("the file contains:")
-    # b = np.load(a)
-
-    # plt.plot(Redshift_1d,dn_dzm)
-    # plt.show()
-    # sys.exit()
+   
     #We finally define the distribution and its values
     # bin_distribution(Redshift_1d, dn_dzm, z_edges)
     n, zbin_edges = np.histogram(Redshift_1d,bins=30, weights=dn_dzm)
@@ -111,5 +104,15 @@ def main ():
     plt.stairs(n, zbin_edges , linewidth=4, color='firebrick' )
     plt.show()
 main()
+ # np.savetxt('dn_dzm', dn_dzm)
+    #
+    # a = open("dn_dzm", 'r')  # open file in read mode
+    #
+    # print("the file contains:")
+    # b = np.load(a)
+
+    # plt.plot(Redshift_1d,dn_dzm)
+    # plt.show()
+    # sys.exit()
 
 
